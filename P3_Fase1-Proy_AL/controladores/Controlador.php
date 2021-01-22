@@ -1,55 +1,87 @@
+
 <?php
 class Controlador
 {
     public function run()
     {
-        if (!isset($_POST['enviar']))//no se ha enviado el formulario
+        if (!isset($_POST['guardar'])) //no se ha enviado el formulario
         { // primera petición
             //se llama al método para mostrar el formulario inicial
             $this->mostrarFormulario();
-			exit();
-        } else
-        {
-            $resultado ="Has añadido al inventario:  ";
+            exit();
+        } else {
+            $resultado = "Has añadido al inventario:  ";
             //el formulario ya se ha enviado
             //se recogen y procesan los datos
             //se llama al método para mostrar el resultado
-            if (!empty($nombre=$_POST['nombre'])){
-            $nombre=$_POST['nombre'];
-            $resultado .= " $nombre ";
+            if (!empty($nombre = $_POST['nombre'])) {
+                $nombre = $_POST['nombre'];
+                $resultado .=  " el producto " . " $nombre <br />";
             }
-            if (!empty($nombre=$_POST['descripción'])){
-            $descripción=$_POST['descripción'];
-            $resultado .= " $descripción <br />";
+            if (!empty($nombre = $_POST['descripción'])) {
+                $descripción = $_POST['descripción'];
+                $resultado .=  "Su descripcion es:  " . " $descripción <br />";
             }
             if (isset($_POST['categoria'])) {
                 $categoria = $_POST['categoria'];
-                $resultado .= " la categoria: ";
+                $resultado .= "Corresponde a la categoría de: ";
                 switch ($categoria) {
                     case "cosmeticos":
-                        $resultado .= "cosmeticos ";
+                        $resultado .= "cosméticos <br />";
                         break;
                     case "alimentos":
-                        $resultado .= "alimentos";
+                        $resultado .= "alimentos <br />";
                         break;
                     case "productos":
-                        $resultado .= "productos";
+                        $resultado .= "productos tecnológicos <br />";
                         break;
                 }
             }
+
+            if (!empty($localizacion = $_POST['localizacion'])) {
+                $localizacion = $_POST['localizacion'];
+                $resultado .=  "La localizacin del producto es:  " . " $localizacion <br />";
+            }
+
+
+            if (!empty($fechaCreacion = $_POST['fechaCreacion'])) {
+                $fechaCreacion = $_POST['fechaCreacion'];
+                $resultado .=  "Se ha creado en la fecha:  " . " $fechaCreacion <br />";
+            }
+
+            if (!empty($stockDispo = $_POST['stockDispo'])) {
+                $stockDispo = $_POST['stockDispo'];
+                $resultado .=  "Las existencias disponibles son:  " . " $stockDispo <br />";
+            }
+
+
+            if (!empty($codProd = $_POST['codProd'])) {
+                $codProd = $_POST['codProd'];
+                $resultado .=  "El código del producto es:  " . " $codProd <br />";
+            }
+            
+            /*$referencias = $_POST['referencias'];
+            $resultado .= "codigo: $referencias";
+            $this->mostrarResultado($resultado);
+            exit();*/
+
             $resultado .= "<br />";
             $this->mostrarResultado($resultado);
-			exit();		
+            exit();
         }
     }
     private function mostrarFormulario()
     {
-     //se muestra la vista del formulario (la plantilla form_bienvenida.php)   
+        //se muestra la vista del formulario (la plantilla form_bienvenida.php)   
         include 'vistas/form_bienvenida.php';
     }
+    /**
+     * Mostrar el formuario y el resultado. SPA
+     * @param string $resultado muestra el mensaje
+     */
     private function mostrarResultado($resultado)
     {
-    // y se muestra la vista del resultado (la plantilla resultado.,php)
-        include 'vistas/vista_resultado.php';
+        // y se muestra la vista del resultado (la plantilla resultado.,php)
+        include 'vistas/form_bienvenida.php';
     }
 }
