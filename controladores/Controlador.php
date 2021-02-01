@@ -7,7 +7,7 @@ class Controlador
         if (!isset($_POST['guardar'])) //no se ha enviado el formulario
         { // primera petición
             //se llama al método para mostrar el formulario inicial
-            $this->mostrarFormulario();
+            $this->mostrarFormulario("validar", null, null);
             exit();
         } else {
             $resultado = "Has añadido al inventario:  ";
@@ -59,9 +59,9 @@ class Controlador
                 $codProd = $_POST['codProd'];
                 $resultado .=  "El código del producto es:  " . " $codProd <br />";
             }
-            
+
             /*$referencias = $_POST['referencias'];
-            $resultado .= "codigo: $referencias";
+            $resultado .= "codigo: $refunction validarferencias";
             $this->mostrarResultado($resultado);
             exit();*/
 
@@ -70,7 +70,7 @@ class Controlador
             exit();
         }
     }
-    private function mostrarFormulario()
+    private function mostrarFormulario($fase, $validador, $resultado)
     {
         //se muestra la vista del formulario (la plantilla form_bienvenida.php)   
         include 'vistas/form_bienvenida.php';
@@ -79,6 +79,37 @@ class Controlador
      * Mostrar el formuario y el resultado. SPA
      * @param string $resultado muestra el mensaje
      */
+
+    private function crearReglasDeValidacion()
+    {
+        $reglasValidacion = array(
+            "nombre" => array("required" => true),
+            "descripción" => array("required" => true),
+            "categoria" => array("required" => true),
+            "localizacion" => array("required" => true),
+            "fechaCreacion" => array("required" => true),
+            "stockDispo" => array("required" => true),
+            "codProd" => array("required" => true)
+        );
+
+        return $reglasValidacion;
+    }
+
+    private function validar()
+    {
+
+        $validador = new validadorForm();
+        $reglasValidacion = $this->crearReglasDeValidacion();
+        $validador->validar($_POST, $reglasValidacion);
+        if ($validador->esValido()) {
+
+
+            $this->mostrarFormulario("continuar", $validador, $resultado);
+            exit();
+        }
+        $this->mostrarFormulario("validar", $validador, $resultado);
+        exit();
+    }
     private function mostrarResultado($resultado)
     {
         // y se muestra la vista del resultado (la plantilla resultado.,php)
