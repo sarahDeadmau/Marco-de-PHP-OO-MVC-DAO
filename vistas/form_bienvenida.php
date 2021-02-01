@@ -6,19 +6,18 @@ include "cabecera.php";
     <div>
         <div class='uno'>
             <label>Nombre del producto</label>
-            <input type="text" name="nombre" /><br />
+            <input type="text" name="nombre" value="<?php echo Input::get('nombre') ?>" /><br />
 
             <label>Descripción</label>
-            <!--<input type="text" name="descripción" /></br>-->
-            <textarea name="descripción" rows="5" cols="50">Introduzca la descripción del producto: </textarea>
+            <textarea name="descripción" rows="5" cols="50" value="<?php echo Input::get('descripción') ?>">Introduzca la descripción del producto: </textarea>
 
             <label>Categoría: </label><br />
-            <input type="checkbox" name="categoria" value="cosmeticos" />Productos cosméticos<br />
+            <input type="checkbox" name="categoria" value="<?php echo Input::get('cosmeticos') ?>" />Productos cosméticos<br />
             <input type="checkbox" name="categoria" value="alimentos" />Alimentos<br />
             <input type="checkbox" name="categoria" value="productos" />Productos tecnológicos <br />
 
             <label>Localización</label>
-            <select class="locali" name="localizacion">
+            <select class="locali" name="localizacion" value="<?php echo Input::get('localizacion') ?>">
                 <option selected>Ubicación del producto</option>
                 <optgroup label="Cosméticos">
                     <option value="A1">A1</option>
@@ -38,24 +37,14 @@ include "cabecera.php";
                 </optgroup>
             </select><br />
 
-            <!--<label>Referencia</label>
-            <select name="referencias">
-                <?php
-                /* $referencias = array("H5", "H6", "H7", "H8");
-                foreach ($referencias as $r) {
-                    echo "<option value='$r'>$r</option>";
-                }*/
-                ?> 
-            </select><br />-->
-
             <label>Fecha Creación: </label>
-            <input type="date" name="fechaCreacion" /><br />
+            <input type="date" name="fechaCreacion" value="<?php echo Input::get('fechaCreacion') ?>" /><br />
 
             <label>Stock: </label>
-            <input type="number" name="stockDispo" /><br />
+            <input type="number" name="stockDispo" value="<?php echo Input::get('stockDispo') ?>" /><br />
 
             <label>Código del producto: </label>
-            <input type="text" name="codProd" /><br />
+            <input type="text" name="codProd" value="<?php echo Input::get('codProd') ?>" /><br />
 
             <input type="submit" name="guardar" value="Guardar" />
             <!--<input type="submit" name="comprobar" value="Comprobar"> -->
