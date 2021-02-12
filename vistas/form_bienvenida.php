@@ -24,7 +24,7 @@ if (Input::siEnviado()) {
             <label>Descripción</label>
             <textarea name="descripcion" rows="5" cols="50" value="<?php echo Input::get('descripcion') ?>">Introduzca la descripción del producto: </textarea>
             <label>Categoría: </label><br />
-            <input type="checkbox" name="categoria" value="cosmeticos" <?php echo Utilidades::verificarBotones(Input::get('categoria'), "cosmeticos") ?> /> cosmeticos<br />
+            <input type="checkbox" name="categoria" value="cosmeticos" <?php echo Utilidades::verificarBotones(Input::get('categoria'), "cosmeticos") ?> />Cosméticos<br />
             <input type="checkbox" name="categoria" value="alimentos" <?php echo Utilidades::verificarBotones(Input::get('categoria'), "alimentos") ?> />Alimentos<br />
             <input type="checkbox" name="categoria" value="productos" <?php echo Utilidades::verificarBotones(Input::get('categoria'), "tecnologicos") ?> />Productos tecnológicos <br />
 
