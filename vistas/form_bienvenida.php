@@ -1,40 +1,46 @@
 <?php
 include "cabecera.php";
+include "helper/utilidades.php";
+include "helper/input.php";
+
+if (Input::siEnviado()) {
+    $errores = $validador->getErrores();
+    if (!empty($errores)) {
+        echo "<div class='errores'>";
+        foreach ($errores as $campo => $mensajeError) {
+            echo "<p>$mensajeError</p>\n";
+        }
+        echo "</div>";
+    }
+}
 ?>
+
 <form id="form" action="index.php" method="post">
 
     <div>
         <div class='uno'>
             <label>Nombre del producto</label>
-            <input type="text" name="nombre" value="<?php echo Input::get('nombre') ?>" /><br />
-
+            <input type="text" name="nombre" value="<?php echo Input::get('nombre') ?>" />
             <label>Descripción</label>
-            <textarea name="descripción" rows="5" cols="50" value="<?php echo Input::get('descripción') ?>">Introduzca la descripción del producto: </textarea>
-
+            <textarea name="descripcion" rows="5" cols="50" value="<?php echo Input::get('descripcion') ?>">Introduzca la descripción del producto: </textarea>
             <label>Categoría: </label><br />
-            <input type="checkbox" name="categoria" value="<?php echo Input::get('cosmeticos') ?>" />Productos cosméticos<br />
-            <input type="checkbox" name="categoria" value="alimentos" />Alimentos<br />
-            <input type="checkbox" name="categoria" value="productos" />Productos tecnológicos <br />
+            <input type="checkbox" name="categoria" value="cosmeticos" <?php echo Utilidades::verificarBotones(Input::get('categoria'), "cosmeticos") ?> /> cosmeticos<br />
+            <input type="checkbox" name="categoria" value="alimentos" <?php echo Utilidades::verificarBotones(Input::get('categoria'), "alimentos") ?> />Alimentos<br />
+            <input type="checkbox" name="categoria" value="productos" <?php echo Utilidades::verificarBotones(Input::get('categoria'), "tecnologicos") ?> />Productos tecnológicos <br />
+
 
             <label>Localización</label>
-            <select class="locali" name="localizacion" value="<?php echo Input::get('localizacion') ?>">
+            <select class="locali" name="localizacion">
                 <option selected>Ubicación del producto</option>
-                <optgroup label="Cosméticos">
-                    <option value="A1">A1</option>
-                    <option value="A2">A2</option>
-                    <option value="A3">A3</option>
-                </optgroup>
-                <optgroup label="Alimentos">
-                    <option value="B1">B1</option>
-                    <option value="B2">B2</option>
-                    <option value="B3">B3</option>
-                </optgroup>
 
-                <optgroup label="Tecnología">
-                    <option value="C1">C1</option>
-                    <option value="C2">C2</option>
-                    <option value="C3">C3</option>
-                </optgroup>
+                <?php
+                $locali = array("A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3");
+                foreach ($locali as $l) {
+                    echo "<option value= $l >";
+                    echo Utilidades::verificarLista(Input::get('localizacion'), $l);
+                    echo "$l</option>";
+                }
+                ?>
             </select><br />
 
             <label>Fecha Creación: </label>
@@ -46,9 +52,9 @@ include "cabecera.php";
             <label>Código del producto: </label>
             <input type="text" name="codProd" value="<?php echo Input::get('codProd') ?>" /><br />
 
-            <input type="submit" name="guardar" value="Guardar" />
-            <!--<input type="submit" name="comprobar" value="Comprobar"> -->
-            <input type="reset" name="borrar" value="Borrar">
+            <input type="submit" name="boton" value="<?php echo $fase ?>" />
+            <!--<input type="submit" name="comprobar" value="continuar">-->
+            <input type="reset" name="borrar" value="borrar">
 
         </div>
     </div>
