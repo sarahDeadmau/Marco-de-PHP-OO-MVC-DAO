@@ -30,7 +30,7 @@ class Utilidades
     public static function verificarBotones($array, $valorBot)
     {
         if ($array == $valorBot) {
-            echo 'selected = "selected"';
+            echo 'checked = "checked"';
         }
     }
 }
