@@ -1,7 +1,8 @@
 <?php
 include "cabecera.php";
-include "helper/utilidades.php";
-include "helper/input.php";
+
+
+
 
 if (Input::siEnviado()) {
     $errores = $validador->getErrores();
@@ -26,7 +27,7 @@ if (Input::siEnviado()) {
             <label>Categoría: </label><br />
             <input type="checkbox" name="categoria" value="cosmeticos" <?php echo Utilidades::verificarBotones(Input::get('categoria'), "cosmeticos") ?> />Cosméticos<br />
             <input type="checkbox" name="categoria" value="alimentos" <?php echo Utilidades::verificarBotones(Input::get('categoria'), "alimentos") ?> />Alimentos<br />
-            <input type="checkbox" name="categoria" value="productos" <?php echo Utilidades::verificarBotones(Input::get('categoria'), "tecnologicos") ?> />Productos tecnológicos <br />
+            <input type="checkbox" name="categoria" value="tecnologicos" <?php echo Utilidades::verificarBotones(Input::get('categoria'), "tecnologicos") ?> />Productos tecnológicos <br />
 
 
             <label>Localización</label>
