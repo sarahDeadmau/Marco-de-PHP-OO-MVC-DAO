@@ -1,7 +1,13 @@
 <?php
 include  "helper/ValidadorForm.php";
+include "modelo/DaoArticulo.php";
+include "modelo/Articulo.php";
+include "helper/Utilidades.php";
+include "helper/Input.php";
 class Controlador
 {
+    private $dao;
+
     public function run()
     {
         if (!isset($_POST["boton"])) //no se ha enviado el formulario
@@ -39,20 +45,56 @@ class Controlador
             "categoria" => array("required" => true),
             "localizacion" => array("required" => true),
             "fechaCreacion" => array("required" => true),
-            "stockDispo" => array("minLength" => 1, "maxLength" => 1000, "required" => true),
+            "stockDispo" => array("required "=> true),
             "codProd" => array("required" => true)
         );
 
         return $reglasValidacion;
     }
 
+//metodo registrar
+//si es valido se ejecuta registrar y sino se muestran errores en el formulario.
+private function creaArticulo($datos){
+    $nombre = htmlspecialchars(stripslashes($datos['nombre']));
+    $descripcion = htmlspecialchars(stripslashes($datos['descripcion']));
+    $categoria = htmlspecialchars(stripslashes($datos['categoria']));
+    $localizacion = htmlspecialchars(stripslashes($datos['localizacion']));
+    $fechaCreacion = htmlspecialchars(stripslashes($datos['fechaCreacion']));
+    $stockDispo = htmlspecialchars(stripslashes($datos['stockDispo']));
+    $codProd = htmlspecialchars(stripslashes($datos['codProd']));
+    $articulo = new Articulo($nombre, $descripcion, $categoria, $localizacion, $fechaCreacion, $stockDispo, $codProd);
+    return $articulo;
+
+}
+
+    private function registrar($validador){
+        $this->dao = new DaoArticulo();
+        $articulo = $this->creaArticulo($_POST);
+        //se ejecuta el metodo si existe
+        $existe = $this->dao->existeArticulo($articulo-> getCodProd());
+        //si no existe se ejecuta el metodo instarArticulo.
+        if (!$existe){
+            $this->dao->insertarArticulo($articulo);
+            $resultado = "Articulo añadido. <br>";
+            $this->mostrarFormulario("continuar", $validador, $resultado);
+            exit();
+
+        }
+        //mensaje si existe.
+        $resultado = "ya existe";
+        $this->mostrarFormulario("validar", $validador, $resultado);
+    }
+
+
     private function validar()
     {
 
-        $validador = new validadorForm();
+        $validador = new ValidadorForm();
         $reglasValidacion = $this->crearReglasDeValidacion();
+
         $validador->validar($_POST, $reglasValidacion);
         if ($validador->esValido()) {
+            $this->registrar($validador);
 
             $nombre = $_POST["nombre"];
             $descripcion = $_POST["descripcion"];
@@ -85,7 +127,7 @@ class Controlador
                     case "alimentos":
                         $resultado .= "alimentos <br />";
                         break;
-                    case "productos":
+                    case "tecnologicos":
                         $resultado .= "productos tecnológicos <br />";
                         break;
                 }
